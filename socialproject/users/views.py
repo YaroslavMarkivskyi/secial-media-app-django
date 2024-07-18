@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import LoginForm, UserRegistartionForm, UserEditForm, ProfileEditForm
 from .models import Profile
+from posts.models import Post
 # Create your views here.
 
 
@@ -28,7 +29,10 @@ def user_login(request):
 
 @login_required
 def index(request):
-    return render(request, 'users/index.html')
+    current_user = request.user
+    posts = Post.objects.filter(user=current_user)
+    profile = Profile.objects.filter(user=current_user).first()
+    return render(request, 'users/index.html', {'posts': posts, 'profile': profile})
 
 
 def register(request):
