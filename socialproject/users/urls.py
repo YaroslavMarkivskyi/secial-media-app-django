@@ -13,4 +13,7 @@ urlpatterns = [
     path('password_change/done/',
          auth_view.PasswordResetDoneView.as_view(template_name='users/password_change_done'),
          name='password_change_done'),
+    path('password_reset/',
+         auth_view.PasswordResetView.as_view(template_name='users/password_reset.html'),
+         name='password_reset'),
     ]
