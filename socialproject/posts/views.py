@@ -1,9 +1,10 @@
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
 from .forms import PostCreateForm
 # Create your views here.
 
 
+@login_required
 def post_create(request):
     if request.method == 'POST':
         form = PostCreateForm(data=request.POST)
