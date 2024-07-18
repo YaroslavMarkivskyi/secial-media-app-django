@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .forms import LoginForm, UserRegistartionForm, UserEditForm, ProfileEditForm
 from .models import Profile
 # Create your views here.
 
@@ -33,7 +33,7 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        user_form = UserRegistrationForm(request.POST)
+        user_form = UserRegistartionForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
@@ -41,7 +41,7 @@ def register(request):
             Profile.objects.create(user=new_user )
             return render(request, 'users/register_done.html')
     else:
-        user_form = UserRegistrationForm()
+        user_form = UserRegistartionForm()
     return render(request, 'users/register.html', {'user_form': user_form})
 
 
@@ -49,7 +49,7 @@ def register(request):
 def edit(request):
     if request.method == "POST":
         user_form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(instance=request.profile, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
